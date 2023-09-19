@@ -35,7 +35,7 @@ public class JdbcTemplateItemRepositoryV1 implements ItemRepository {
 
     @Override
     public Item save(Item item) {
-        String sql = "insert into item(item_name, price, quantity) values(?, ?, ?)";
+        String sql = "insert into item (item_name, price, quantity) values(?, ?, ?)";
         KeyHolder keyHolder = new GeneratedKeyHolder(); // DB 에서 만들어서 보낸
         template.update(connection -> {
             // 자동 증가 키
@@ -53,7 +53,7 @@ public class JdbcTemplateItemRepositoryV1 implements ItemRepository {
 
     @Override
     public void update(Long itemId, ItemUpdateDto updateParam) {
-        String sql = "update item set item_name=?, price=?, quantity=? where id =?";
+        String sql = "update item set item_name=?, price=?, quantity=? where id=?";
         template.update(sql,
                 updateParam.getItemName(),
                 updateParam.getPrice(),
@@ -63,7 +63,7 @@ public class JdbcTemplateItemRepositoryV1 implements ItemRepository {
 
     @Override
     public Optional<Item> findById(Long id) {
-        String sql = "select id, item_name, price, quantity form item where id = ?";
+        String sql = "select id, item_name, price, quantity from item where id =?";
 
         try {
             Item item = template.queryForObject(sql, itemRowMapper(), id);
@@ -104,14 +104,14 @@ public class JdbcTemplateItemRepositoryV1 implements ItemRepository {
     }
 
     private RowMapper<Item> itemRowMapper() {
-        return ((rs, rowNum) -> {
+        return (rs, rowNum) -> {
             Item item = new Item();
             item.setId(rs.getLong("id"));
-            item.setItemName(rs.getString("itemName"));
+            item.setItemName(rs.getString("item_name"));
             item.setPrice(rs.getInt("price"));
             item.setQuantity(rs.getInt("quantity"));
             return item;
-        });
+        };
     }
 
 
