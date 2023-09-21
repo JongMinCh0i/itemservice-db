@@ -20,7 +20,7 @@
 
     <select id="findById" resultType="Item">
         select id, item_name, price, quantity
-        form item
+        from item
         where id = #{id}
     </select>
 
@@ -32,7 +32,7 @@
                 and item_name like concat('%',#{itemName}, '%')
             </if>
             <if test="maxPrice != null">
-                and price &lt;= #{maxPrice}}
+                and price &lt;= #{maxPrice}
             </if>
         </where>
     </select>
